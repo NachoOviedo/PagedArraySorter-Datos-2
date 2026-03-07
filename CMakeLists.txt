@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(PagedSort)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+
+add_executable(generador src/generador.cpp
+        src/generador.cpp)
+
+add_executable(sorter src/sorter.cpp
+        src/PagedArray.cpp
+        src/sorter.cpp
+        src/PagedArray.cpp)
