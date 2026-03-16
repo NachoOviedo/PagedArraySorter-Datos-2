@@ -14,7 +14,7 @@ class PagedArray
     //Variables de la clase
 private:
     int PageSize;       //Cantidad de enteros por pagina
-    int NumPages;       //Frames disponibles
+    int NumPage;       //Frames disponibles
     bool* DirtyBite;    //Saber si hay que registrar cambios
     int** frames;       //Matriz de frames
     int* FramePages;    //Registro de paginas en frames
@@ -36,28 +36,28 @@ public:
     {
         //asignacion de variables
         PageSize = pageSize;
-        NumPages = numPages;
+        NumPage = numPages;
         NumArray = numArray;
         PageFaults = 0;
         PageHits = 0;
         file = fopen(filePath, "r+b");
-        frames = new int*[NumPages];
+        frames = new int*[NumPage];
         contador = 0;
-        for(int i = 0; i < NumPages; i++) {
+        for(int i = 0; i < NumPage; i++) {
             frames[i] = new int[PageSize];
         }
-        DirtyBite = new bool[NumPages];
-        for(int i = 0; i < NumPages; i++)
+        DirtyBite = new bool[NumPage];
+        for(int i = 0; i < NumPage; i++)
         {
             DirtyBite[i] = false;
         }
-        FramePages = new int[NumPages];
-        for (int i = 0; i < NumPages; i++)
+        FramePages = new int[NumPage];
+        for (int i = 0; i < NumPage; i++)
         {
             FramePages[i] = -1;
         }
-        ultimo = new int[NumPages];
-        for (int i = 0; i < NumPages; i++)
+        ultimo = new int[NumPage];
+        for (int i = 0; i < NumPage; i++)
         {
             ultimo[i] = 0;
         }
@@ -65,10 +65,16 @@ public:
     // Destructor
     ~PagedArray()
     {
+    for (int i = 0; i < NumPage; i++) {
+        if (DirtyBite[i] == true) {
+            fseek(file, FramePages[i] * PageSize * sizeof(int), SEEK_SET);
+            fwrite(frames[i], sizeof(int), PageSize, file);
+        }
+    }
         //Limpia la memoria del heap
         delete[] FramePages;
         delete[] DirtyBite;
-        for (int i = 0; i < NumPages; i++)
+        for (int i = 0; i < NumPage; i++)
         {
             delete[] frames[i];
         }
@@ -77,20 +83,59 @@ public:
         fclose(file);
     };
     int& operator[](int index) {
+        //Determina el numero de pagina que es
         int NumPagina = index / PageSize;
+        //Determina la posicion de la pagina
         int PosPagina = index % PageSize;
-
-        for (int i = 0; i < NumPages; i++)
+        //Busco el frame en memoria
+        for (int i = 0; i < NumPage; i++)
         {
             if (FramePages[i] == NumPagina)
             {
+                //Actulizo ultima vez que se accedio al frame
+                ultimo[i] = contador++;
+
                 PageHits++;
+                //Actualizo indicador de acceso
+                DirtyBite[i] = true;
                 return frames[i][PosPagina];
             }
         }
+
         PageFaults++;
-        return frames[0][PosPagina];
+        int FrameRemplazo = -1;
+        //Busco un frame vacio
+        for (int i = 0; i < NumPage; i++)
+        {
+            if (FramePages[i] == -1)
+            {
+                FrameRemplazo = i;
+            }
+        }
+        //No hay frame vacio, asigno uno existente para remplzar
+        if (FrameRemplazo == -1)
+        {
+            FrameRemplazo = LRU();
+        }
+        //Cargo el exitente en disco
+        Cargador(NumPagina, FrameRemplazo);
+        //Actualizo la ultima vez que se accedio al frame
+        ultimo[FrameRemplazo] = contador++;
+        //Actualizo indicador de acceso
+        DirtyBite[FrameRemplazo] = true;
+        //Remplazo el frame por el escogido
+        return frames[FrameRemplazo][PosPagina];
     }
+    void estadisicas(){
+        cout<< "____________estadisticas____________"<<endl;
+        cout<< "Cantidad de paginas en memoria: " << NumPage<<endl;
+        cout<< "Dimencion de pagina: " << PageSize<<endl;
+        cout<< "Page Hits: "<<PageHits<<endl;
+        cout<< "Page Faults: "<<PageFaults<<endl;
+        cout<< "Cantidad de paginas accedidas: "<< contador<<endl;
+
+    };
 };
+
 
 #endif //PAGEDARRAYSORTER_DATOS_2_PAGEDARRAY_H
