@@ -10,4 +10,5 @@ add_executable(generador src/generador.cpp)
 
 add_executable(sorter
         src/sorter.cpp
-        src/PagedArray.cpp)
+        src/PagedArray.cpp
+        src/sorter.cpp)
