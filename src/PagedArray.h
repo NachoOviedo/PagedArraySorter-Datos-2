@@ -1,7 +1,3 @@
-//
-// Created by nacho on 7/3/2026.
-//
-
 #ifndef PAGEDARRAYSORTER_DATOS_2_PAGEDARRAY_H
 #define PAGEDARRAYSORTER_DATOS_2_PAGEDARRAY_H
 
@@ -82,6 +78,8 @@ public:
         delete[] ultimo;
         fclose(file);
     };
+
+
     int& operator[](int index) {
         //Determina el numero de pagina que es
         int NumPagina = index / PageSize;
