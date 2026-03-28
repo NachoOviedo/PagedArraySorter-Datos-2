@@ -32,9 +32,9 @@ int main(int argc, char* argv[])
 
     map<string, long long> pesos;
                     // ll anuncia que es long long
-    pesos ["SMALL"] = 512ll * 1024 * 1024;       //512 Mb
-    pesos ["MEDIUM"] = 1ll * 1024 * 1024 * 1024; // 1 GB
-    pesos ["LARGE"] = 2ll * 1024 * 1024 * 1024;  // 2 Gb
+    pesos ["SMALL"] = 128ll * 1024 * 1028;  //128 Mb
+    pesos ["MEDIUM"] = 256ll * 1024 * 1024; //256 Mb
+    pesos ["LARGE"] = 512ll * 1024 * 1024;  //512 Mb
 
     //Se establece el tamano apartir de la entrada del usuario
     long long size;
