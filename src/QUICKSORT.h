@@ -14,7 +14,7 @@
  * smaller elements to the left of the pivot and all greater elements
  * to the right of the pivot.
  */
-int partition(PagedArray& arr, int low, int high) {
+int partition(PagedArray& arr, long long low, long long high) {
     int pivot = arr[high]; // Choose the last element as the pivot
     int i = (low - 1); // Index of smaller element
 

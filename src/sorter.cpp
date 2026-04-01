@@ -87,9 +87,9 @@ int main(int argc, char* argv[])
 
     auto inicio = chrono::steady_clock::now();
     SortManager(NewPagedArray, CantidadEnteros, algoritmo.c_str());
+    cout << "Archivo ordenado exitosamente" << endl;
     auto fin = chrono::steady_clock::now();
     auto duracion = chrono::duration_cast<chrono::milliseconds>(fin - inicio).count();
-    cout << "Archivo ordenado exitosamente" << endl;
 
     string archivoTexto = archivoS + ".txt";
 
@@ -143,5 +143,5 @@ int main(int argc, char* argv[])
 
     //Resumen
     cout << "Tiempo de ordenamiento: " << duracion << " ms" << endl;
-    NewPagedArray.estadisicas();
+    NewPagedArray.estadisicas(duracion, algoritmo, tamanoArchivo);
 }

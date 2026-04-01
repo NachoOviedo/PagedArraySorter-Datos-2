@@ -7,7 +7,7 @@
 #include "PagedArray.h"
 
 // Merges two subarrays of arr[].
-void merge(PagedArray& arr, int l, int m, int r) {
+void merge(PagedArray& arr, long long l, int m, long long r) {
     int n1 = m - l + 1, n2 = r - m;
     int* L = new int[n1];
     int* R = new int[n2];

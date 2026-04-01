@@ -8,31 +8,31 @@
 #include <cstring>
 #include <iostream>
 #include "PagedArray.h"
-#include "BUBBLESORT.h"
-#include "HEAPSORT.h"
 #include "MERGESORT.h"
 #include "QUICKSORT.h"
 #include "SHELLSORT.h"
+#include "RADIXSORT.h"
+#include "COMBSORT.h"
 
 //inline indicador de que esta bien que aparezca en mas de un archivo.
 
-inline void SortManager (PagedArray& arr, int n, const char* algoritmo )
+inline void SortManager (PagedArray& arr, long long n, const char* algoritmo )
 {
-    if ( strcmp(algoritmo, "BUBBLESORT") == 0)
+    if ( strcmp(algoritmo, "RADIXSORT") == 0)
     {
-        bubbleSort(arr, n);
+        radixSort(arr, (int)n);
     } else if ( strcmp(algoritmo, "QUICKSORT") == 0)
     {
         quickSort(arr, 0, n - 1);
     } else if ( strcmp(algoritmo, "SHELLSORT") == 0)
     {
-        shellSort(arr, n);
+        shellSort(arr, (int)n);
     } else if ( strcmp(algoritmo, "MERGESORT") == 0)
     {
         mergeSort(arr, 0, n - 1);
-    } else if ( strcmp(algoritmo, "HEAPSORT") == 0)
+    } else if ( strcmp(algoritmo, "COMBSORT") == 0)
     {
-        heapSort(arr, n);
+        combSort(arr, (int)n);
     } else {
         std::cout << "Algoritmo invalido" << "\n";
     }

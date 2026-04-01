@@ -7,7 +7,7 @@
 #include "PagedArray.h"
 
 // Function to perform Shell Sort
-void shellSort(PagedArray& arr, int n) {
+void shellSort(PagedArray& arr, long long n) {
 
     // Start with a large gap, then reduce the gap
     for (int gap = n / 2; gap > 0; gap /= 2) {

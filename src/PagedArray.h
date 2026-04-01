@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <iostream>
+
 using namespace std;
 
 class PagedArray
@@ -15,11 +16,11 @@ private:
     int** frames;       //Matriz de frames
     int* FramePages;    //Registro de paginas en frames
     FILE* file;         //Puntero al archivo en disco
-    int PageFaults;     //Contador de Faultds
-    int PageHits;       //Contador de hits
+    long long PageFaults;     //Contador de Faultds
+    long long PageHits;       //Contador de hits
     int NumArray;       //Total de enteros en el array
     int* ultimo;        //Registro de ultimo uso
-    int contador;       //Contador de accesos
+    long long contador;       //Contador de accesos
 
     //Metodos declarados
     void Cargador(int pageNum, int frameIndex);
@@ -94,8 +95,6 @@ public:
                 ultimo[i] = contador++;
 
                 PageHits++;
-                //Actualizo indicador de acceso
-                DirtyBite[i] = true;
                 return frames[i][PosPagina];
             }
         }
@@ -124,7 +123,7 @@ public:
         //Remplazo el frame por el escogido
         return frames[FrameRemplazo][PosPagina];
     }
-    void estadisicas(){
+    void estadisicas(long long duracion, string algoritmo, long long tamano){
         cout<< "____________estadisticas____________"<<endl;
         cout<< "Cantidad de paginas en memoria: " << NumPage<<endl;
         cout<< "Dimencion de pagina: " << PageSize<<endl;
@@ -132,7 +131,38 @@ public:
         cout<< "Page Faults: "<<PageFaults<<endl;
         cout<< "Cantidad de paginas accedidas: "<< contador<<endl;
 
-    };
+        const char* rutaCSV = "C:\\Datos_2\\RegistrosCSV.csv";
+
+        // Verificar si el archivo existe para saber si escribir encabezado
+        FILE* verificar = fopen(rutaCSV, "r");
+        bool esNuevo = (verificar == nullptr);
+        if (!esNuevo) fclose(verificar);
+
+        // Abrir en modo append
+        FILE* csv = fopen(rutaCSV, "a");
+        if (csv == nullptr) {
+            cout << "Error al abrir archivo CSV" << endl;
+            return;
+        }
+
+        // Escribir encabezado si es nuevo
+        if (esNuevo) {
+            fprintf(csv, "Algoritmo;PageSize;PageCount;TamanoArchivo;TiempoMs;PageFaults;PageHits;TotalAccesos\n");
+        }
+
+        // Escribir fila de datos
+        fprintf(csv, "%s;%d;%d;%lld;%lld;%lld;%lld;%lld\n",
+            algoritmo.c_str(),
+            PageSize,
+            NumPage,
+            tamano,
+            duracion,
+            PageFaults,
+            PageHits,
+            contador);
+
+        fclose(csv);
+    }
 };
 
 
