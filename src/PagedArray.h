@@ -131,7 +131,7 @@ public:
         cout<< "Page Faults: "<<PageFaults<<endl;
         cout<< "Cantidad de paginas accedidas: "<< contador<<endl;
 
-        const char* rutaCSV = "C:\\Datos_2\\RegistrosCSV.csv";
+        const char* rutaCSV = "C:\\RegistrosCSV.csv";
 
         // Verificar si el archivo existe para saber si escribir encabezado
         FILE* verificar = fopen(rutaCSV, "r");
