@@ -34,9 +34,9 @@ int main(int argc, char* argv[])
                     // ll anuncia que es long long
     pesos ["TINY"] = 1000 * sizeof(int);
     pesos ["Prueba"] = 64ll * 1024 * 1024;
-    pesos ["SMALL"] = 256ll * 1024 * 1028;  //128 Mb
-    pesos ["MEDIUM"] = 512ll * 1024 * 1024; //256 Mb
-    pesos ["LARGE"] = 1028ll * 1024 * 1024;  //1 Gb
+    pesos ["SMALL"] = 128ll * 1024 * 1028;  //128 Mb
+    pesos ["MEDIUM"] = 256ll * 1024 * 1024; //256 Mb
+    pesos ["LARGE"] = 512ll * 1024 * 1024;  //512 Mb
 
     //Se establece el tamano apartir de la entrada del usuario
     long long size;
