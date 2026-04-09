@@ -33,10 +33,9 @@ int main(int argc, char* argv[])
     map<string, long long> pesos;
                     // ll anuncia que es long long
     pesos ["TINY"] = 1000 * sizeof(int);
-    pesos ["Prueba"] = 64ll * 1024 * 1024;
-    pesos ["SMALL"] = 128ll * 1024 * 1028;  //128 Mb
-    pesos ["MEDIUM"] = 256ll * 1024 * 1024; //256 Mb
-    pesos ["LARGE"] = 512ll * 1024 * 1024;  //512 Mb
+    pesos ["SMALL"] = 32ll * 1024 * 1028;  //32 Mb
+    pesos ["MEDIUM"] = 64ll * 1024 * 1024; //64 Mb
+    pesos ["LARGE"] = 128ll * 1024 * 1024;  //128 Mb
 
     //Se establece el tamano apartir de la entrada del usuario
     long long size;
@@ -78,7 +77,14 @@ int main(int argc, char* argv[])
     {
         long long BytesRestantes = BytesPorEscribir - BytesEscritos;
         //Seleccion de cantidad de enteros por escribir en buffer
-        int enteros = min(BytesRestantes/(long long)sizeof(int), BufferSize);
+        int enteros;
+        if (BytesRestantes/(long long)sizeof(int) <= BufferSize)
+        {
+            enteros = BytesRestantes/(long long)sizeof(int);
+        } else
+        {
+            enteros = BufferSize;
+        }
 
         //Llenar buffer
         for (int i = 0; i < enteros; i++){

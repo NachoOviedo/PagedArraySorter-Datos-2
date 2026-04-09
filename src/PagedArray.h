@@ -23,6 +23,7 @@ private:
     long long contador;       //Contador de accesos
 
     //Metodos declarados
+    //Metodo para guardar la pagina a disco
     void Cargador(int pageNum, int frameIndex);
     //Metodo para escoger la pagina que se va a guardar en disco
     int LRU();
@@ -38,8 +39,9 @@ public:
         PageFaults = 0;
         PageHits = 0;
         file = fopen(filePath, "r+b");
-        frames = new int*[NumPage];
         contador = 0;
+        frames = new int*[NumPage];
+
         for(int i = 0; i < NumPage; i++) {
             frames[i] = new int[PageSize];
         }
@@ -123,7 +125,8 @@ public:
         //Remplazo el frame por el escogido
         return frames[FrameRemplazo][PosPagina];
     }
-    void estadisicas(long long duracion, string algoritmo, long long tamano){
+    void estadisticas(long long duracion, string algoritmo, long long tamano, bool testing)
+    {
         cout<< "____________estadisticas____________"<<endl;
         cout<< "Cantidad de paginas en memoria: " << NumPage<<endl;
         cout<< "Dimencion de pagina: " << PageSize<<endl;
@@ -131,6 +134,13 @@ public:
         cout<< "Page Faults: "<<PageFaults<<endl;
         cout<< "Cantidad de paginas accedidas: "<< contador<<endl;
 
+        if (testing)
+        {
+            estadisticasCSV(duracion, algoritmo, tamano);
+        }
+    }
+
+    void estadisticasCSV(long long duracion, string algoritmo, long long tamano){
         const char* rutaCSV = "C:\\RegistrosCSV.csv";
 
         // Verificar si el archivo existe para saber si escribir encabezado
@@ -164,6 +174,12 @@ public:
         fclose(csv);
     }
 };
+
+inline void mySwap(PagedArray& arr, int a, int b) {
+    int temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+}
 
 
 #endif //PAGEDARRAYSORTER_DATOS_2_PAGEDARRAY_H

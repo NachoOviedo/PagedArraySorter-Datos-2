@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
     // Numero a escribir en el archivo txt
     int numEsc;
     long long contador = 1;
-    //4096 enteros * 11 disitos mas signo que pueden tener
+    //4096 enteros * 11 dijitos mas signo que pueden tener + 1 espacio de la coma
     char* bufferTexto = new char[4096*12];
     int* bufferInts = new int[4096];
     int offset = 0;
@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
     while (contador < CantidadEnteros) {
         int IntLeidos = fread(bufferInts, sizeof(int), 4096, ordenado);
         for (int i = 0; i < IntLeidos; i++) {
+            //Actualiza la posicion del puntero en el archivo a la posicion actual despues de escribir el ultimo numero
             offset += sprintf(bufferTexto + offset, ",%d", bufferInts[i]);
             // Escribir cuando el buffer esté casi lleno
             if (offset > 4096 * 11) {
@@ -143,5 +144,6 @@ int main(int argc, char* argv[])
 
     //Resumen
     cout << "Tiempo de ordenamiento: " << duracion << " ms" << endl;
-    NewPagedArray.estadisicas(duracion, algoritmo, tamanoArchivo);
+                                                                    //  true pruebas, false para defensa
+    NewPagedArray.estadisticas(duracion, algoritmo, tamanoArchivo, false);
 }
